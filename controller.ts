@@ -50,7 +50,7 @@ myApp.post('/create/user', bodyParser.json(), async (req, res) => {
     }
 });
 
-myApp.get('/user', bodyParser.json(), async (req, res) => {
+myApp.post('/user', bodyParser.json(), async (req, res) => {
     const user: user = req.body;
 
     console.log(user)
