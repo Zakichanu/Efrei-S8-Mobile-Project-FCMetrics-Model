@@ -46,12 +46,14 @@ myApp.post('/create/user', bodyParser.json(), async (req, res) => {
         }).save();
 
         res.send('User created');
+        console.log('User created')
     }
 });
 
 myApp.get('/user', bodyParser.json(), async (req, res) => {
     const user: user = req.body;
 
+    console.log(user)
     // Check if user doesnt exists
     const userDB = await userInformation.find({
         mail: req.body.mail
@@ -63,11 +65,14 @@ myApp.get('/user', bodyParser.json(), async (req, res) => {
         const isPasswordCorrect = await bcrypt.compare(user.password, userDB[0].password);
         if(isPasswordCorrect) {
             res.send(userDB[0]);
+            console.log("DONE")
         }else{
             res.send('Password is incorrect');
+            console.log("PASSWORD INCORRECT")
         }
     }else{
         res.send("User doesn't exists");
+        console.log("USER DOESNT EXISTS")
     }
 });
 
