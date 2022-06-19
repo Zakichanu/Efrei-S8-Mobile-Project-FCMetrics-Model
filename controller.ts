@@ -50,6 +50,7 @@ myApp.post('/create/user', bodyParser.json(), async (req, res) => {
     }
 });
 
+// Get user by mail and password
 myApp.post('/user', bodyParser.json(), async (req, res) => {
     const user: user = req.body;
 
@@ -65,7 +66,7 @@ myApp.post('/user', bodyParser.json(), async (req, res) => {
         const isPasswordCorrect = await bcrypt.compare(user.password, userDB[0].password);
         if(isPasswordCorrect) {
             res.send(userDB[0]);
-            console.log("DONE")
+            console.log("CONNECTION DONE")
         }else{
             res.send('Password is incorrect');
             console.log("PASSWORD INCORRECT")
@@ -75,6 +76,22 @@ myApp.post('/user', bodyParser.json(), async (req, res) => {
         console.log("USER DOESNT EXISTS")
     }
 });
+
+// Get user by id
+myApp.get('/user/:id', async (req, res) => {
+    const userId = req.params.id;
+
+    const userDB = await userInformation.find({
+        _id: userId
+    })
+
+    if(userDB.length > 0) {
+        res.send(userDB[0]);
+        console.log("USER ID FOUND")
+    }else{
+        res.send("User doesn't exists");
+    }
+})
 
 const port = process.env.PORT || 3000;
 
